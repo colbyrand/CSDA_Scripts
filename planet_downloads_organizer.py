@@ -33,34 +33,6 @@ os.chdir(directoryname)
 PlanetScope_dates = []
 PlanetScope_catids = []
 planetscope_present = 0     # variables to indicate if PlanetScope images were encountered
-zip_present = 0
-
-with os.scandir(os.getcwd()) as directory:
-    for file in directory:
-        if file.name.endswith('.zip'):
-            zip_present = 1
-
-if zip_present == 1:
-    # Uncompress all the zip files
-    with os.scandir(os.getcwd()) as directory:
-        for file in directory:
-            file_name = file.name
-            if file_name.endswith('.zip'):
-                print('Extracting: ' + file_name + '...')
-                with ZipFile(os.getcwd()+'/'+file_name, 'r') as f:
-                    f.extractall('unzip')
-
-    os.chdir('unzip')
-    with os.scandir(os.getcwd()) as directory:
-        for file in directory:
-            if file.name.endswith('MACOSX') == False and file.is_dir:
-                shutil.move(os.getcwd()+'/'+file.name, directoryname)
-
-    os.chdir('..')
-    with os.scandir(os.getcwd()) as directory:
-        for file in directory:
-            if file.name.endswith('unzip'):
-                shutil.rmtree(file)
 
 # Move image folders to PlanetScope folders
 with os.scandir(os.getcwd()) as directory:
