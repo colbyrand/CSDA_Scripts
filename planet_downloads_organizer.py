@@ -33,6 +33,34 @@ os.chdir(directoryname)
 PlanetScope_dates = []
 PlanetScope_catids = []
 planetscope_present = 0     # variables to indicate if PlanetScope images were encountered
+zip_present = 0
+
+with os.scandir(os.getcwd()) as directory:
+    for file in directory:
+        if file.name.endswith('.zip'):
+            zip_present = 1
+
+if zip_present == 1:
+    # Uncompress all the zip files
+    with os.scandir(os.getcwd()) as directory:
+        for file in directory:
+            file_name = file.name
+            if file_name.endswith('.zip'):
+                print('Extracting: ' + file_name + '...')
+                with ZipFile(os.getcwd()+'/'+file_name, 'r') as f:
+                    f.extractall('unzip')
+
+    os.chdir('unzip')
+    with os.scandir(os.getcwd()) as directory:
+        for file in directory:
+            if file.name.endswith('MACOSX') == False and file.is_dir:
+                shutil.move(os.getcwd()+'/'+file.name, directoryname)
+
+    os.chdir('..')
+    with os.scandir(os.getcwd()) as directory:
+        for file in directory:
+            if file.name.endswith('unzip'):
+                shutil.rmtree(file)
 
 # Move image folders to PlanetScope folders
 with os.scandir(os.getcwd()) as directory:
@@ -53,22 +81,22 @@ with os.scandir(os.getcwd()) as directory:
                 for file2 in directory2:
                     if file2.is_dir:
                         os.chdir(file2.name)    # enter image folder
+                        path1 = os.getcwd()
                         with os.scandir(os.getcwd()) as directory3:
                             for file3 in directory3:
-                                if file3.name == 'files':
-                                    os.chdir('files')     # enter files folder
+                                if file3.name == 'PSScene':
+                                    os.chdir(file3)     # enter PSScene folder
                                     with os.scandir(os.getcwd()) as directory4:
-                                        for file4 in directory4:        # loop through files in 'files' folder and create image ID folders in the PlanetScope folder
-                                            if file4.name.endswith('Store') == False:
-                                                id = file4.name.split('_')
-                                                catid = str(id[0]) + '_' + str(id[1]) + '_' + str(id[2]) + '_' + str(id[3])
+                                        for file4 in directory4:        # loop through files in 'PSScene' folder and create image ID folders in the PlanetScope folder
+                                            if file4.name.endswith('Store') == False and file4.name.startswith('PSScene_collection') == False:
+                                                catid = file4.name[0:23]
                                                 if catid not in PlanetScope_catids:
                                                     PlanetScope_catids.append(catid)
                                                     print(catid)
                                                     os.mkdir('../../' + catid)
                                                 os.chdir('../..')
                                                 path=os.getcwd()
-                                                os.chdir(file2.name+'/files')
+                                                os.chdir(file2.name+'/PSScene')
                                                 shutil.move(os.getcwd()+'/'+file4.name, path+'/'+catid)
                                     os.chdir('..')
                         os.chdir('..')
