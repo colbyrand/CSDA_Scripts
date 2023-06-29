@@ -59,6 +59,8 @@ if zip_present == 1:
     os.chdir('..')
     with os.scandir(os.getcwd()) as directory:
         for file in directory:
+            if file.name.endswith('.zip'):
+                os.remove(file)
             if file.name.endswith('unzip'):
                 shutil.rmtree(file)
 
@@ -117,6 +119,11 @@ with os.scandir(os.getcwd()) as directory:
                             PlanetScope_dates.append(date)
                             os.mkdir(date)
                         shutil.move(file2, date)
+
+os.chdir(directoryname)
+
+# Organize SkySat folders
+
 
 os.chdir(directoryname)
 
