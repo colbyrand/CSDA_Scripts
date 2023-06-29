@@ -57,7 +57,7 @@ if zip_present == 1:
     with os.scandir(os.getcwd()) as directory:
         for file in directory:
             if file.name.endswith('MACOSX') == False and file.is_dir:
-                shutil.move(file, directoryname)
+                shutil.move(file.path, directoryname)
 
     os.chdir('..')
     with os.scandir(os.getcwd()) as directory:
@@ -75,12 +75,12 @@ with os.scandir(os.getcwd()) as directory:
                 if planetscope_present == 0:
                     os.mkdir('PlanetScope')
                 planetscope_present = 1
-                shutil.move(file, 'PlanetScope')
+                shutil.move(file.path, 'PlanetScope')
             if 'skysat' in file.name:
                 if SkySat_present == 0:
                     os.mkdir('SkySat')
                 SkySat_present = 1
-                shutil.move(file, 'SkySat')
+                shutil.move(file.path, 'SkySat')
 
 # Organize PlanetScope folders
 with os.scandir(os.getcwd()) as directory:
@@ -105,10 +105,10 @@ with os.scandir(os.getcwd()) as directory:
                                                 if image_id not in PlanetScope_IDs:
                                                     PlanetScope_IDs.append(image_id)
                                                     os.mkdir('../../' + image_id)
-                                                shutil.move(file4, directoryname+'/PlanetScope/'+image_id)
+                                                shutil.move(file4.path, directoryname+'/PlanetScope/'+image_id)
                                     with os.scandir(os.getcwd()) as directory4:
                                         for file4 in directory4:
-                                            shutil.move(file4, directoryname+'/PlanetScope/'+image_id)
+                                            shutil.move(file4.path, directoryname+'/PlanetScope/'+image_id)
                                     os.chdir('..')
                         os.chdir('..')
 
@@ -126,7 +126,7 @@ with os.scandir(os.getcwd()) as directory:
                         if date not in PlanetScope_dates:
                             PlanetScope_dates.append(date)
                             os.mkdir(date)
-                        shutil.move(file2, date)
+                        shutil.move(file2.path, date)
 
 os.chdir(directoryname)
 
@@ -153,10 +153,14 @@ with os.scandir(os.getcwd()) as directory:
                                                 if image_id not in SkySat_IDs:
                                                     SkySat_IDs.append(image_id)
                                                     os.mkdir('../../' + image_id)
-                                                shutil.move(file4, directoryname+'/SkySat/'+image_id)
+                                                shutil.move(file4.path, directoryname+'/SkySat/'+image_id)
                                     with os.scandir(os.getcwd()) as directory4:
                                         for file4 in directory4:
-                                            shutil.move(file4, directoryname+'/SkySat/'+image_id)
+                                            image_id = '_'.join(file4.name.split('_')[0:4])
+                                            if image_id.endswith('.json'):
+                                                image_id = image_id.split('.')[0]
+                                            print('Image ID: '+image_id)
+                                            shutil.move(file4.path, directoryname+'/SkySat/'+image_id)
                                     os.chdir('..')
                         os.chdir('..')
 
@@ -165,6 +169,8 @@ with os.scandir(os.getcwd()) as directory:
                 for file2 in directory2:
                     if file2.is_dir and file2.name not in SkySat_IDs:
                         shutil.rmtree(file2, ignore_errors=True)
+                    if file2.name.startswith('SkySatCollect'):
+                        os.remove(file2)
 
             # Move image ID folders to date folders
             with os.scandir(os.getcwd()) as directory2:
@@ -174,7 +180,7 @@ with os.scandir(os.getcwd()) as directory:
                         if date not in SkySat_dates:
                             SkySat_dates.append(date)
                             os.mkdir(date)
-                        shutil.move(file2, date)
+                        shutil.move(file2.path, date)
 
 os.chdir(directoryname)
 
