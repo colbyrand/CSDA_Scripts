@@ -42,7 +42,7 @@ with open('metadata.csv', 'w', newline='') as metaFile:
                                                         data = f.read()
                                                     parsed_json = json.loads(data)
 
-                                                    id = parsed_json['id'][29:37]
+                                                    id = parsed_json['id'][29:38]
                                                     acquisitionDate = parsed_json['acquisitionDate'][0:10]+' '+parsed_json['acquisitionDate'][11:19]+' UTC'
                                                     region = ''
                                                     site = ''
@@ -77,7 +77,7 @@ with open('metadata.csv', 'w', newline='') as metaFile:
                                                         data = f.read()
                                                     parsed_json = json.loads(data)
 
-                                                    id = parsed_json['id'][24:32]
+                                                    id = parsed_json['id'][24:33]
                                                     acquisitionDate = parsed_json['acquisitionDate'][0:10]+' '+parsed_json['acquisitionDate'][11:19]+' UTC'
                                                     region = ''
                                                     site = ''
