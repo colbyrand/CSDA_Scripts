@@ -42,7 +42,7 @@ with os.scandir(os.getcwd()) as directory:
                     
                     # Area Coverage product
                     if file2.name.startswith('BSG-AREA'):
-                        imageID = file2.name[29:37]+'_AREA'
+                        imageID = file2.name[29:38]+'_AREA'
                         date = file2.name[13:17]+'_'+file2.name[17:19]+'_'+file2.name[19:21]
                         if date not in dates:
                             os.mkdir(date)
