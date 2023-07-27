@@ -26,7 +26,7 @@ with os.scandir(os.getcwd()) as directory:
 
                     # Standard product
                     if file2.name.startswith('BSG-1'):
-                        imageID = file2.name[24:32]
+                        imageID = file2.name[24:33]
                         date = file2.name[8:12]+'_'+file2.name[12:14]+'_'+file2.name[14:16]
                         if date not in dates:
                             os.mkdir(date)
