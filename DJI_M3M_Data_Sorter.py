@@ -15,10 +15,7 @@ os.mkdir('Drone_GNSS')
 os.mkdir('Survey_Imagery')
 os.chdir('Survey_Imagery')
 os.mkdir('RGB')
-os.mkdir('Green')
-os.mkdir('Red')
-os.mkdir('Red_Edge')
-os.mkdir('NIR')
+os.mkdir('Multispectral')
 os.chdir('..')
 
 # Create array to store photography image IDs
@@ -36,13 +33,13 @@ with os.scandir(os.getcwd()) as directory:
                         shutil.move(file2, directoryname+'/Photography')
                         photography_image_ID.append(file2.name.split('_')[0:2])     # add this image ID to the array
                     elif file2.name.endswith('G.TIF'):
-                        shutil.move(file2, directoryname+'/Survey_Imagery/Green')
+                        shutil.move(file2, directoryname+'/Survey_Imagery/Multispectral')
                     elif file2.name.endswith('_R.TIF'):
-                        shutil.move(file2, directoryname+'/Survey_Imagery/Red')
+                        shutil.move(file2, directoryname+'/Survey_Imagery/Multispectral')
                     elif file2.name.endswith('RE.TIF'):
-                        shutil.move(file2, directoryname+'/Survey_Imagery/Red_Edge')
+                        shutil.move(file2, directoryname+'/Survey_Imagery/Multispectral')
                     elif file2.name.endswith('NIR.TIF'):
-                        shutil.move(file2, directoryname+'/Survey_Imagery/NIR')
+                        shutil.move(file2, directoryname+'/Survey_Imagery/Multispectral')
                     elif file2.name.endswith('.nav'):
                         shutil.move(file2, directoryname+'/Drone_GNSS')
                     elif file2.name.endswith('.obs'):
